@@ -1,31 +1,12 @@
 const express = require("express");
-
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const path = require("path");
 
 const app = express();
 const PORT = 3001;
-const cors = require("cors");
 
-const allowedOrigins = [
-  "https://optiversee.netlify.app", 
-  "http://localhost:5173", 
-];
-
-app.use(cors({
-  origin: function(origin, callback) {
-   
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = `The CORS policy for this site does not allow access from the specified Origin.`;
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  },
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
-}));
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/"); 
@@ -55,10 +36,12 @@ app.get("/todos/:id", (req, res) => {
 });
 
 
+
+
 app.post("/todos", upload.single("image"), (req, res) => {
   const { title, description, status } = req.body;
 
-  // 🔒 Validation
+
   if (!title || !description || !status || !req.file) {
     return res.status(400).json({
       message: "All fields (title, description, status, image) are required",

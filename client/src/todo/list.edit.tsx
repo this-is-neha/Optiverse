@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import HeaderComponent from "../home/header";
 
-const baseURL = "https://optiverse-5tzi.onrender.com";
+const baseURL = "http://localhost:3001/todos";
 
 const ListEdit: React.FC = () => {
   const [list, setList] = useState<any>({
