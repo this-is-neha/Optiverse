@@ -7,8 +7,8 @@ Setup Instructions:
 
   2. Navigate to the project folder:
 
-     cd client
-     cd server
+     a. cd client
+     b. cd server
 
 
   3. Install dependencies:
