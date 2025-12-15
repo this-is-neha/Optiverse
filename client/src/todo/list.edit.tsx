@@ -100,36 +100,36 @@ const ListEdit: React.FC = () => {
                 required
               />
             </div>
-<div>
-  <label className="block text-gray-700 font-medium mb-1">Image</label>
-  <input
-    type="file"
-    name="image"
-    onChange={handleFileChange}
-    className="w-full p-2 border border-gray-300 rounded"
-  />
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">Image</label>
+              <input
+                type="file"
+                name="image"
+                onChange={handleFileChange}
+                className="w-full p-2 border border-gray-300 rounded"
+              />
 
-  {/* Preview previous image or newly selected file */}
-  {list.image && (
-    <div className="mt-2">
-      {typeof list.image === "string" ? (
-        // Existing image from backend
-        <img
-          src={`http://localhost:3001${list.image}`} // backend URL
-          alt="Todo"
-          className="w-20 h-20 object-cover rounded"
-        />
-      ) : (
-        // Preview newly selected file
-        <img
-          src={URL.createObjectURL(list.image)}
-          alt="Todo"
-          className="w-20 h-20 object-cover rounded"
-        />
-      )}
-    </div>
-  )}
-</div>
+
+              {list.image && (
+                <div className="mt-2">
+                  {typeof list.image === "string" ? (
+
+                    <img
+                      src={`http://localhost:3001${list.image}`}
+                      alt="Todo"
+                      className="w-20 h-20 object-cover rounded"
+                    />
+                  ) : (
+
+                    <img
+                      src={URL.createObjectURL(list.image)}
+                      alt="Todo"
+                      className="w-20 h-20 object-cover rounded"
+                    />
+                  )}
+                </div>
+              )}
+            </div>
 
             <div>
               <label className="block text-gray-700 font-medium mb-1">Status</label>

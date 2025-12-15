@@ -9,7 +9,7 @@ const ListCreate: React.FC = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    image:  null as File | null, 
+    image: null as File | null,
     status: "pending",
   });
   const [error, setError] = useState("");
@@ -19,40 +19,40 @@ const ListCreate: React.FC = () => {
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
- const handleFileChange = (e: any) => {
+  const handleFileChange = (e: any) => {
     if (e.target.files) {
       const file = e.target.files[0];
-      setFormData({ ...formData, image: file }); 
+      setFormData({ ...formData, image: file });
       console.log("Uploaded file:", file);
     }
   };
- 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  try {
-    const form = new FormData();
-    form.append("title", formData.title);
-    form.append("description", formData.description);
-    form.append("status", formData.status);
-    if (formData.image) form.append("image", formData.image);
 
-    const response = await axios.post(baseURL, form, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const form = new FormData();
+      form.append("title", formData.title);
+      form.append("description", formData.description);
+      form.append("status", formData.status);
+      if (formData.image) form.append("image", formData.image);
 
-    console.log("Todo created:", response.data);
-    setSuccess(true);
-    setFormData({ title: "", description: "", image: null, status: "pending" });
+      const response = await axios.post(baseURL, form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-    setTimeout(() => setSuccess(false), 2500);
-    navigate("/todos");
-  } catch (err) {
-    console.error("Error creating todo:", err);
-    setError("Failed to create todo. Please try again.");
-  }
-};
+      console.log("Todo created:", response.data);
+      setSuccess(true);
+      setFormData({ title: "", description: "", image: null, status: "pending" });
+
+      setTimeout(() => setSuccess(false), 2500);
+      navigate("/todos");
+    } catch (err) {
+      console.error("Error creating todo:", err);
+      setError("Failed to create todo. Please try again.");
+    }
+  };
 
   return (
     <>
@@ -90,15 +90,15 @@ const handleSubmit = async (e: React.FormEvent) => {
             </div>
 
             <div>
-            <label className="block text-lg mb-1">Image</label>
-            <input
-              type="file"
-              name="image"
-              onChange={handleFileChange}
-              className="w-full p-2 border border-gray-300 rounded text-lg"
-              required
-            />
-          </div>
+              <label className="block text-lg mb-1">Image</label>
+              <input
+                type="file"
+                name="image"
+                onChange={handleFileChange}
+                className="w-full p-2 border border-gray-300 rounded text-lg"
+                required
+              />
+            </div>
 
             <div>
               <label className="block text-gray-700 font-medium mb-1">Status</label>

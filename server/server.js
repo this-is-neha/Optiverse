@@ -37,18 +37,25 @@ app.get("/todos/:id", (req, res) => {
 
 
 app.post("/todos", upload.single("image"), (req, res) => {
-  const { title, description = "", status = "pending" } = req.body;
-  const image = req.file ? `/uploads/${req.file.filename}` : "";
+  const { title, description, status } = req.body;
+
+  // 🔒 Validation
+  if (!title || !description || !status || !req.file) {
+    return res.status(400).json({
+      message: "All fields (title, description, status, image) are required",
+    });
+  }
 
   const newTodo = {
     id: todos.length + 1,
-    title,
-    description,
-    image,
+    title: title.trim(),
+    description: description.trim(),
+    image: `/uploads/${req.file.filename}`,
     status,
   };
+
   todos.push(newTodo);
-  res.json(newTodo);
+  res.status(201).json(newTodo);
 });
 
 app.put("/todos/:id", upload.single("image"), (req, res) => {

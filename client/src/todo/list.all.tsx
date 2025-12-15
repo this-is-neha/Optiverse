@@ -23,14 +23,21 @@ const ListList: React.FC = () => {
     fetchLists();
   }, []);
 
-  const handleDelete = async (id: number) => {
-    try {
-      await axios.delete(`${baseURL}/${id}`);
-      setLists(lists.filter((list) => list.id !== id));
-    } catch (exception) {
-      console.error("Error deleting todo:", exception);
-    }
-  };
+const handleDelete = async (id: number) => {
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this todo?"
+  );
+
+  if (!confirmDelete) return;
+
+  try {
+    await axios.delete(`${baseURL}/${id}`);
+    setLists(lists.filter((list) => list.id !== id));
+  } catch (exception) {
+    console.error("Error deleting todo:", exception);
+  }
+};
+
 
   const handleEdit = (id: number) => {
     navigate(`/todos/edit/${id}`);
@@ -42,7 +49,9 @@ const ListList: React.FC = () => {
       <div className="min-h-screen bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-200 flex items-center justify-center p-6">
         <div className="w-full max-w-5xl bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-8">
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-4xl font-bold text-indigo-700">Your Todo Lists</h1>
+            <h1 className="text-4xl font-bold text-indigo-700">
+              Your Todo Lists
+            </h1>
             <button
               onClick={() => navigate("/todos/create")}
               className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2.5 rounded-lg transition"
@@ -55,25 +64,48 @@ const ListList: React.FC = () => {
             <table className="w-full border-collapse bg-white rounded-lg shadow">
               <thead className="bg-indigo-600 text-white">
                 <tr>
-                  <th className="px-6 py-3 text-left text-sm font-medium">Title</th>
-                  <th className="px-6 py-3 text-left text-sm font-medium">Description</th>
-                  <th className="px-6 py-3 text-left text-sm font-medium">Image</th>
-                  <th className="px-6 py-3 text-left text-sm font-medium">Status</th>
-                  <th className="px-6 py-3 text-center text-sm font-medium">Actions</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium">
+                    Title
+                  </th>
+                  <th className="px-6 py-3 text-left text-sm font-medium">
+                    Description
+                  </th>
+                  <th className="px-6 py-3 text-left text-sm font-medium">
+                    Image
+                  </th>
+                  <th className="px-6 py-3 text-left text-sm font-medium">
+                    Status
+                  </th>
+                  <th className="px-6 py-3 text-center text-sm font-medium">
+                    Actions
+                  </th>
                 </tr>
               </thead>
+
               <tbody>
                 {lists.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="text-center text-gray-500 px-6 py-8 text-lg">
+                    <td
+                      colSpan={5}
+                      className="text-center text-gray-500 px-6 py-8 text-lg"
+                    >
                       No Todos available
                     </td>
                   </tr>
                 ) : (
                   lists.map((list) => (
-                    <tr key={list.id} className="hover:bg-indigo-50 transition">
-                      <td className="px-6 py-4 border-b text-gray-800 font-medium">{list.title}</td>
-                      <td className="px-6 py-4 border-b text-gray-600">{list.description || "-"}</td>
+                    <tr
+                      key={list.id}
+                      className="hover:bg-indigo-50 transition"
+                    >
+                      <td className="px-6 py-4 border-b text-gray-800 font-medium">
+                        {list.title}
+                      </td>
+
+                      <td className="px-6 py-4 border-b text-gray-600">
+                        {list.description || "-"}
+                      </td>
+
                       <td className="px-6 py-4 border-b text-gray-600">
                         {list.image ? (
                           <img
@@ -86,20 +118,27 @@ const ListList: React.FC = () => {
                         )}
                       </td>
 
-                      <td className="px-6 py-4 border-b text-gray-800">{list.status}</td>
-                      <td className="px-6 py-4 border-b text-center space-x-3">
-                        <button
-                          onClick={() => handleEdit(list.id)}
-                          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1.5 rounded-lg transition"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDelete(list.id)}
-                          className="bg-red-500 hover:bg-red-600 text-white px-4 py-1.5 rounded-lg transition"
-                        >
-                          Delete
-                        </button>
+                      <td className="px-6 py-4 border-b text-gray-800">
+                        {list.status}
+                      </td>
+
+                 
+                      <td className="px-6 py-4 border-b">
+                        <div className="flex items-center justify-center gap-3">
+                          <button
+                            onClick={() => handleEdit(list.id)}
+                            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1.5 rounded-lg transition"
+                          >
+                            Edit
+                          </button>
+
+                          <button
+                            onClick={() => handleDelete(list.id)}
+                            className="bg-red-500 hover:bg-red-600 text-white px-4 py-1.5 rounded-lg transition"
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))
