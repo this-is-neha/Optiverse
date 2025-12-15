@@ -9,7 +9,7 @@ const PORT = 3001;
 const cors = require("cors");
 
 const allowedOrigins = [
-  "https://optiverse.netlify.app", 
+  "https://optiversee.netlify.app/", 
   "http://localhost:5173", 
 ];
 
